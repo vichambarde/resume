@@ -25,9 +25,28 @@
     border-radius: 8px;
     box-shadow: 0 0 25px rgba(0,0,0,0.1);
   }
+
+  /* Buttons */
+  .button-container {
+    text-align: right;
+    margin-bottom: 18px;
+  }
+  .button-container button {
+    margin-left: 8px;
+    padding: 8px 12px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    border: 1px solid #333;
+    background: #fff;
+    border-radius: 6px;
+  }
+  .button-container button:hover {
+    background: #f0f0f0;
+  }
+
   header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
   header h1 {
     font-size: 2.5rem;
@@ -110,13 +129,21 @@
       font-size: 1.1rem;
     }
     .skill-item {
-      font-size: 0.8rem;
+      font-size: 0.8rem
+    }
+    .button-container {
+      text-align: center;
     }
   }
 </style>
 </head>
 <body>
   <div class="container">
+    <div class="button-container">
+      <button type="button" onclick="downloadResume()">Download</button>
+      <button type="button" onclick="window.print()">Print</button>
+    </div>
+
     <header>
       <h1>Vicky Hambarde</h1>
       <p>IT Support Assistent </p>
@@ -150,8 +177,6 @@
       </div>
     </section>
 
-  
-
     <section>
       <h2>Work Experience</h2>
       <div class="experience-item">
@@ -171,9 +196,33 @@
       <ul>
         <li>Enjoys learning new technologies and is a fast learner.</li>
         <li>Excellent communication skills.</li>
-        <li>Leadership experience as Vice President of the Cultural Club in college.</li>
       </ul>
     </section>
   </div>
+
+  <script>
+    // Download the rendered page as an HTML file. Keeps filenames safe and triggers as a user click.
+    function downloadResume() {
+      try {
+        const clone = document.documentElement.cloneNode(true);
+        // Remove script tags from clone to avoid re-running scripts on open
+        clone.querySelectorAll('script').forEach(s => s.remove());
+        const html = '<!doctype html>\n' + clone.outerHTML;
+        const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'vicky-hambarde-resume.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), 700);
+      } catch (err) {
+        console.error('downloadResume error:', err);
+        alert('Download failed — check browser console for details.');
+      }
+    }
+  </script>
 </body>
 </html>
+
