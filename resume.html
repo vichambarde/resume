@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Resume</title>
+  <style>
+    .button-container {
+      margin: 20px 0;
+    }
+    button {
+      margin-right: 10px;
+      padding: 8px 14px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="button-container">
+    <button onclick="downloadResume()">Download</button>
+    <button onclick="window.print()">Print</button>
+  </div>
+
+  <!-- Resume content starts here -->
+  <h1>Your Name</h1>
+  <p>Your resume content goes here...</p>
+  <!-- Resume content ends here -->
+
+  <script>
+    function downloadResume() {
+      // Download the current HTML as a file
+      const blob = new Blob([document.documentElement.outerHTML], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'resume.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  </script>
+</body>
+</html>
